@@ -1,19 +1,66 @@
 export default function Header() {
   return (
-    <header className="bg-white" style={{ borderBottom: '2px solid #e2e4ea' }}>
-      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center gap-3">
+    <header
+      style={{
+        backgroundColor: '#005577',
+        borderBottom: '1px solid rgba(141, 209, 245, 0.2)',
+        boxShadow: '0 2px 20px rgba(0, 85, 119, 0.25)',
+      }}
+    >
+      <div
+        style={{
+          maxWidth: 1152,
+          margin: '0 auto',
+          padding: '14px 24px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 14,
+        }}
+      >
         <div
-          className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-sm shrink-0"
-          style={{ background: 'linear-gradient(135deg, #6d3aed, #8b5cf6)' }}
+          style={{
+            width: 42,
+            height: 42,
+            borderRadius: 12,
+            background: 'rgba(255,255,255,0.12)',
+            border: '1px solid rgba(141, 209, 245, 0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+          }}
           aria-hidden="true"
         >
-          AI
+          <span className="material-symbols-outlined" style={{ color: '#8dd1f5', fontSize: 22 }}>hub</span>
         </div>
         <div>
-          <h1 className="text-lg font-bold" style={{ color: '#1e1f2e' }}>
+          <h1
+            style={{
+              fontSize: 18,
+              fontWeight: 800,
+              fontFamily: '"Plus Jakarta Sans", sans-serif',
+              background: 'linear-gradient(to right, #ffffff, #8dd1f5)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              letterSpacing: '-0.02em',
+              lineHeight: 1.2,
+              margin: 0,
+            }}
+          >
             AI Tools voor Leerkrachten
           </h1>
-          <p className="text-xs" style={{ color: '#8b90a7' }}>
+          <p
+            style={{
+              fontSize: 10,
+              color: 'rgba(141, 209, 245, 0.8)',
+              fontFamily: '"Space Grotesk", sans-serif',
+              textTransform: 'uppercase',
+              letterSpacing: '0.15em',
+              fontWeight: 600,
+              margin: 0,
+              marginTop: 2,
+            }}
+          >
             Miniemeninstituut Leuven
           </p>
         </div>

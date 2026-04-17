@@ -1,11 +1,11 @@
 import GdprBadge from './GdprBadge'
 
 const CAT_COLORS = {
-  Tekstgeneratie:  { bg: '#eff6ff', text: '#1d4ed8' },
-  Beeldgeneratie: { bg: '#fdf2f8', text: '#9d174d' },
-  Onderzoek:       { bg: '#eef2ff', text: '#3730a3' },
-  Communicatie:    { bg: '#f0fdf4', text: '#15803d' },
-  Video:           { bg: '#fff7ed', text: '#c2410c' },
+  Tekstgeneratie:  { bg: 'rgba(0, 85, 119, 0.1)',   text: '#005577' },
+  Beeldgeneratie:  { bg: 'rgba(141, 209, 245, 0.2)', text: '#004466' },
+  Onderzoek:       { bg: 'rgba(0, 85, 119, 0.08)',  text: '#005577' },
+  Communicatie:    { bg: 'rgba(5, 150, 105, 0.1)',   text: '#065f46' },
+  Video:           { bg: 'rgba(217, 119, 6, 0.1)',   text: '#92400e' },
 }
 
 function Avatar({ naam, logoUrl }) {
@@ -15,22 +15,28 @@ function Avatar({ naam, logoUrl }) {
         src={logoUrl}
         alt=""
         aria-hidden="true"
-        className="w-12 h-12 rounded-xl object-contain bg-gray-50 p-1 shrink-0"
+        style={{
+          width: 48, height: 48, borderRadius: 14,
+          objectFit: 'contain',
+          backgroundColor: 'rgba(141, 209, 245, 0.1)',
+          padding: 4, flexShrink: 0,
+        }}
         onError={e => { e.currentTarget.style.display = 'none' }}
       />
     )
   }
-  const initials = naam
-    .split(' ')
-    .slice(0, 2)
-    .map(w => w[0])
-    .join('')
-    .toUpperCase()
+  const initials = naam.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase()
   return (
     <div
-      className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-base shrink-0"
-      style={{ backgroundColor: '#ede9fe', color: '#6d3aed' }}
       aria-hidden="true"
+      style={{
+        width: 48, height: 48, borderRadius: 14,
+        background: 'linear-gradient(135deg, #005577, #8dd1f5)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        color: '#fff', fontWeight: 800, fontSize: 15,
+        fontFamily: '"Plus Jakarta Sans", sans-serif',
+        flexShrink: 0,
+      }}
     >
       {initials}
     </div>
@@ -38,11 +44,16 @@ function Avatar({ naam, logoUrl }) {
 }
 
 function CategorieBadge({ categorie }) {
-  const c = CAT_COLORS[categorie] || { bg: '#f3f4f6', text: '#374151' }
+  const c = CAT_COLORS[categorie] || { bg: 'rgba(0, 85, 119, 0.08)', text: '#005577' }
   return (
     <span
-      className="px-2 py-0.5 rounded-full text-xs font-medium"
-      style={{ backgroundColor: c.bg, color: c.text }}
+      style={{
+        padding: '2px 10px', borderRadius: 9999,
+        fontSize: 10, fontWeight: 700,
+        fontFamily: '"Space Grotesk", sans-serif',
+        textTransform: 'uppercase', letterSpacing: '0.05em',
+        backgroundColor: c.bg, color: c.text,
+      }}
     >
       {categorie}
     </span>
@@ -53,36 +64,40 @@ export default function ToolCard({ tool, onClick }) {
   return (
     <button
       onClick={() => onClick(tool)}
-      className="w-full text-left bg-white rounded-2xl p-5 flex flex-col gap-3 transition-all duration-200 focus-visible:outline-none"
+      className="glass-card"
       style={{
-        border: '1px solid #e2e4ea',
-        boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.05)',
+        width: '100%', textAlign: 'left', borderRadius: 24,
+        padding: 20, display: 'flex', flexDirection: 'column',
+        gap: 12, cursor: 'pointer',
+        transition: 'all 0.2s ease', outline: 'none',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.borderColor = '#6d3aed'
-        e.currentTarget.style.boxShadow = '0 4px 12px 0 rgb(109 58 237 / 0.12)'
+        e.currentTarget.style.borderColor = 'rgba(0, 85, 119, 0.5)'
+        e.currentTarget.style.boxShadow = '0 8px 28px rgba(141, 209, 245, 0.35)'
+        e.currentTarget.style.transform = 'translateY(-2px)'
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.borderColor = '#e2e4ea'
-        e.currentTarget.style.boxShadow = '0 1px 3px 0 rgb(0 0 0 / 0.05)'
+        e.currentTarget.style.borderColor = 'rgba(141, 209, 245, 0.35)'
+        e.currentTarget.style.boxShadow = 'none'
+        e.currentTarget.style.transform = 'translateY(0)'
       }}
       onFocus={e => {
-        e.currentTarget.style.borderColor = '#6d3aed'
-        e.currentTarget.style.boxShadow = '0 0 0 3px rgb(109 58 237 / 0.15)'
+        e.currentTarget.style.borderColor = '#005577'
+        e.currentTarget.style.boxShadow = '0 0 0 3px rgba(0, 85, 119, 0.15)'
       }}
       onBlur={e => {
-        e.currentTarget.style.borderColor = '#e2e4ea'
-        e.currentTarget.style.boxShadow = '0 1px 3px 0 rgb(0 0 0 / 0.05)'
+        e.currentTarget.style.borderColor = 'rgba(141, 209, 245, 0.35)'
+        e.currentTarget.style.boxShadow = 'none'
       }}
       aria-label={`Meer info over ${tool.naam}`}
     >
-      <div className="flex items-start gap-3">
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
         <Avatar naam={tool.naam} logoUrl={tool.logo_url} />
-        <div className="flex-1 min-w-0">
-          <p className="font-semibold text-base leading-tight" style={{ color: '#1e1f2e' }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p style={{ fontWeight: 700, fontSize: 15, fontFamily: '"Plus Jakarta Sans", sans-serif', color: '#002233', lineHeight: 1.3, margin: 0 }}>
             {tool.naam}
           </p>
-          <div className="mt-1.5">
+          <div style={{ marginTop: 6 }}>
             <CategorieBadge categorie={tool.categorie} />
           </div>
         </div>
@@ -90,52 +105,27 @@ export default function ToolCard({ tool, onClick }) {
 
       {tool.beschrijving && (
         <p
-          className="text-sm leading-relaxed"
           style={{
-            color: '#4b5166',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
+            fontSize: 13, color: '#446677', lineHeight: 1.6, margin: 0,
+            display: '-webkit-box', WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical', overflow: 'hidden',
           }}
         >
           {tool.beschrijving}
         </p>
       )}
 
-      <div className="flex flex-wrap gap-1.5 mt-auto">
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 'auto' }}>
         {tool.voor_leerkracht && tool.voor_leerling ? (
-          <span
-            className="px-2 py-0.5 rounded-full text-xs font-medium"
-            style={{ backgroundColor: '#ede9fe', color: '#6d3aed' }}
-          >
-            Leerkracht &amp; leerling
-          </span>
+          <span style={{ padding: '3px 10px', borderRadius: 9999, fontSize: 10, fontWeight: 700, fontFamily: '"Space Grotesk", sans-serif', textTransform: 'uppercase', letterSpacing: '0.04em', backgroundColor: 'rgba(0,85,119,0.08)', color: '#005577' }}>Leerkracht &amp; Leerling</span>
         ) : tool.voor_leerkracht ? (
-          <span
-            className="px-2 py-0.5 rounded-full text-xs font-medium"
-            style={{ backgroundColor: '#ede9fe', color: '#6d3aed' }}
-          >
-            Leerkracht
-          </span>
+          <span style={{ padding: '3px 10px', borderRadius: 9999, fontSize: 10, fontWeight: 700, fontFamily: '"Space Grotesk", sans-serif', textTransform: 'uppercase', letterSpacing: '0.04em', backgroundColor: 'rgba(0,85,119,0.08)', color: '#005577' }}>Leerkracht</span>
         ) : tool.voor_leerling ? (
-          <span
-            className="px-2 py-0.5 rounded-full text-xs font-medium"
-            style={{ backgroundColor: '#ede9fe', color: '#6d3aed' }}
-          >
-            Leerling
-          </span>
+          <span style={{ padding: '3px 10px', borderRadius: 9999, fontSize: 10, fontWeight: 700, fontFamily: '"Space Grotesk", sans-serif', textTransform: 'uppercase', letterSpacing: '0.04em', backgroundColor: 'rgba(0,85,119,0.08)', color: '#005577' }}>Leerling</span>
         ) : null}
-
         {tool.gratis && (
-          <span
-            className="px-2 py-0.5 rounded-full text-xs font-medium"
-            style={{ backgroundColor: '#f0fdf4', color: '#15803d' }}
-          >
-            Gratis beschikbaar
-          </span>
+          <span style={{ padding: '3px 10px', borderRadius: 9999, fontSize: 10, fontWeight: 700, fontFamily: '"Space Grotesk", sans-serif', textTransform: 'uppercase', letterSpacing: '0.04em', backgroundColor: 'rgba(5,150,105,0.1)', color: '#065f46' }}>Gratis</span>
         )}
-
         <GdprBadge status={tool.gdpr_status} />
       </div>
     </button>
