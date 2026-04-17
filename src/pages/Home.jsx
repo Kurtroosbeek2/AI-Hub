@@ -5,22 +5,27 @@ import TabBeslishulp from './TabBeslishulp'
 import TabTips from './TabTips'
 
 const TABS = [
-  { id: 'tools',      label: 'Alle tools' },
-  { id: 'beslishulp', label: 'Welke tool gebruik ik?' },
-  { id: 'tips',       label: 'Tips voor gebruik' },
+  { id: 'tools',      label: 'Alle tools',           icon: 'grid_view' },
+  { id: 'beslishulp', label: 'Welke tool gebruik ik?', icon: 'help_outline' },
+  { id: 'tips',       label: 'Tips voor gebruik',    icon: 'lightbulb' },
 ]
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('tools')
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#f4f5f7' }}>
+    <div className="min-h-screen">
       <Header />
 
       {/* Sticky tab bar */}
       <div
-        className="sticky top-0 z-10 bg-white"
-        style={{ borderBottom: '1px solid #e2e4ea', boxShadow: '0 1px 4px rgb(0 0 0 / 0.06)' }}
+        className="sticky top-0 z-10"
+        style={{
+          background: 'rgba(255,255,255,0.9)',
+          backdropFilter: 'blur(12px)',
+          borderBottom: '1px solid rgba(141,209,245,0.25)',
+          boxShadow: '0 2px 12px rgba(0,85,119,0.06)',
+        }}
       >
         <div className="max-w-6xl mx-auto px-4">
           <nav className="flex" role="tablist" aria-label="Navigatietabbladen">
@@ -30,13 +35,15 @@ export default function Home() {
                 role="tab"
                 aria-selected={activeTab === tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className="px-5 py-4 text-sm font-medium transition-colors border-b-2 -mb-px"
+                className="flex items-center gap-1.5 px-4 py-3.5 text-sm font-semibold transition-all border-b-2 -mb-px font-label uppercase tracking-wide"
                 style={{
-                  borderBottomColor: activeTab === tab.id ? '#6d3aed' : 'transparent',
-                  color: activeTab === tab.id ? '#6d3aed' : '#4b5166',
+                  borderBottomColor: activeTab === tab.id ? '#005577' : 'transparent',
+                  color: activeTab === tab.id ? '#005577' : '#446677',
                 }}
               >
-                {tab.label}
+                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>{tab.icon}</span>
+                <span className="hidden sm:inline">{tab.label}</span>
+                <span className="sm:hidden">{tab.id === 'tools' ? 'Tools' : tab.id === 'beslishulp' ? 'Gids' : 'Tips'}</span>
               </button>
             ))}
           </nav>

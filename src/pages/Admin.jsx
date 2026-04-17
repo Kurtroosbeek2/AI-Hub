@@ -20,29 +20,26 @@ const EMPTY_TOOL = {
   actief: true,
 }
 
-const inputCls = {
+const inputStyle = {
   width: '100%',
-  padding: '8px 12px',
-  border: '1px solid #e2e4ea',
+  padding: '9px 12px',
+  border: '1px solid rgba(141,209,245,0.4)',
   borderRadius: 8,
   fontSize: 14,
-  color: '#1e1f2e',
-  backgroundColor: '#fff',
+  color: '#002233',
+  backgroundColor: 'rgba(255,255,255,0.8)',
   outline: 'none',
+  fontFamily: 'Manrope, sans-serif',
+  transition: 'border-color 0.15s',
 }
+
+const focusStyle = { borderColor: '#005577', boxShadow: '0 0 0 3px rgba(0,85,119,0.08)' }
+const blurStyle  = { borderColor: 'rgba(141,209,245,0.4)', boxShadow: 'none' }
 
 function FormField({ label, children, full }) {
   return (
     <div style={{ gridColumn: full ? '1 / -1' : undefined }}>
-      <label
-        style={{
-          display: 'block',
-          fontSize: 13,
-          fontWeight: 600,
-          color: '#1e1f2e',
-          marginBottom: 6,
-        }}
-      >
+      <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#8dd1f5', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: '"Space Grotesk", sans-serif' }}>
         {label}
       </label>
       {children}
@@ -78,63 +75,82 @@ function ToolForm({ tool, onSave, onCancel, saving, message }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
         <button
           onClick={onCancel}
-          style={{ fontSize: 14, color: '#6d3aed', background: 'none', border: 'none', cursor: 'pointer' }}
+          style={{ fontSize: 14, color: '#005577', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontFamily: '"Space Grotesk", sans-serif', fontWeight: 600 }}
         >
-          ← Terug
+          <span className="material-symbols-outlined" style={{ fontSize: 16 }}>arrow_back</span>
+          Terug
         </button>
-        <h2 style={{ fontSize: 18, fontWeight: 700, color: '#1e1f2e', margin: 0 }}>
+        <h2 style={{ fontSize: 18, fontWeight: 700, color: '#002233', margin: 0, fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
           {tool.id ? 'Tool bewerken' : 'Nieuwe tool toevoegen'}
         </h2>
       </div>
 
-      <div style={{ backgroundColor: '#fff', border: '1px solid #e2e4ea', borderRadius: 16, padding: 24, boxShadow: '0 1px 4px rgb(0 0 0 / 0.05)' }}>
+      <div style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(16px)', border: '1px solid rgba(141,209,245,0.35)', borderRadius: 20, padding: 28, boxShadow: '0 4px 24px rgba(0,85,119,0.08)' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
           <FormField label="Naam *">
-            <input type="text" value={form.naam} onChange={e => set('naam', e.target.value)} required style={inputCls} onFocus={e => { e.target.style.borderColor = '#6d3aed' }} onBlur={e => { e.target.style.borderColor = '#e2e4ea' }} />
+            <input type="text" value={form.naam} onChange={e => set('naam', e.target.value)} required style={inputStyle} onFocus={e => Object.assign(e.target.style, focusStyle)} onBlur={e => Object.assign(e.target.style, blurStyle)} />
           </FormField>
           <FormField label="Categorie">
-            <select value={form.categorie} onChange={e => set('categorie', e.target.value)} style={inputCls}>
+            <select value={form.categorie} onChange={e => set('categorie', e.target.value)} style={inputStyle} onFocus={e => Object.assign(e.target.style, focusStyle)} onBlur={e => Object.assign(e.target.style, blurStyle)}>
               {CATEGORIEEN.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
           </FormField>
           <FormField label="Website URL">
-            <input type="url" value={form.website_url} onChange={e => set('website_url', e.target.value)} style={inputCls} onFocus={e => { e.target.style.borderColor = '#6d3aed' }} onBlur={e => { e.target.style.borderColor = '#e2e4ea' }} placeholder="https://..." />
+            <input type="url" value={form.website_url} onChange={e => set('website_url', e.target.value)} style={inputStyle} onFocus={e => Object.assign(e.target.style, focusStyle)} onBlur={e => Object.assign(e.target.style, blurStyle)} placeholder="https://..." />
           </FormField>
           <FormField label="Logo URL">
-            <input type="url" value={form.logo_url} onChange={e => set('logo_url', e.target.value)} style={inputCls} onFocus={e => { e.target.style.borderColor = '#6d3aed' }} onBlur={e => { e.target.style.borderColor = '#e2e4ea' }} placeholder="https://..." />
+            <input type="url" value={form.logo_url} onChange={e => set('logo_url', e.target.value)} style={inputStyle} onFocus={e => Object.assign(e.target.style, focusStyle)} onBlur={e => Object.assign(e.target.style, blurStyle)} placeholder="https://..." />
           </FormField>
           <FormField label="Beschrijving" full>
-            <textarea value={form.beschrijving} onChange={e => set('beschrijving', e.target.value)} rows={3} style={{ ...inputCls, resize: 'vertical' }} onFocus={e => { e.target.style.borderColor = '#6d3aed' }} onBlur={e => { e.target.style.borderColor = '#e2e4ea' }} />
+            <textarea value={form.beschrijving} onChange={e => set('beschrijving', e.target.value)} rows={3} style={{ ...inputStyle, resize: 'vertical' }} onFocus={e => Object.assign(e.target.style, focusStyle)} onBlur={e => Object.assign(e.target.style, blurStyle)} />
           </FormField>
           <FormField label="Prijsinfo">
-            <input type="text" value={form.prijs_info} onChange={e => set('prijs_info', e.target.value)} style={inputCls} onFocus={e => { e.target.style.borderColor = '#6d3aed' }} onBlur={e => { e.target.style.borderColor = '#e2e4ea' }} />
+            <input type="text" value={form.prijs_info} onChange={e => set('prijs_info', e.target.value)} style={inputStyle} onFocus={e => Object.assign(e.target.style, focusStyle)} onBlur={e => Object.assign(e.target.style, blurStyle)} />
           </FormField>
           <FormField label="GDPR-status">
-            <select value={form.gdpr_status} onChange={e => set('gdpr_status', e.target.value)} style={inputCls}>
+            <select value={form.gdpr_status} onChange={e => set('gdpr_status', e.target.value)} style={inputStyle} onFocus={e => Object.assign(e.target.style, focusStyle)} onBlur={e => Object.assign(e.target.style, blurStyle)}>
               {GDPR_OPTIES.map(o => <option key={o} value={o}>{o}</option>)}
             </select>
           </FormField>
           <FormField label="GDPR-toelichting" full>
-            <textarea value={form.gdpr_toelichting} onChange={e => set('gdpr_toelichting', e.target.value)} rows={2} style={{ ...inputCls, resize: 'vertical' }} onFocus={e => { e.target.style.borderColor = '#6d3aed' }} onBlur={e => { e.target.style.borderColor = '#e2e4ea' }} />
+            <textarea value={form.gdpr_toelichting} onChange={e => set('gdpr_toelichting', e.target.value)} rows={2} style={{ ...inputStyle, resize: 'vertical' }} onFocus={e => Object.assign(e.target.style, focusStyle)} onBlur={e => Object.assign(e.target.style, blurStyle)} />
           </FormField>
           <FormField label="Use cases (komma-gescheiden)" full>
-            <input type="text" value={form.use_cases} onChange={e => set('use_cases', e.target.value)} style={inputCls} onFocus={e => { e.target.style.borderColor = '#6d3aed' }} onBlur={e => { e.target.style.borderColor = '#e2e4ea' }} placeholder="Lesvoorbereiding, Samenvatten, ..." />
+            <input type="text" value={form.use_cases} onChange={e => set('use_cases', e.target.value)} style={inputStyle} onFocus={e => Object.assign(e.target.style, focusStyle)} onBlur={e => Object.assign(e.target.style, blurStyle)} placeholder="Lesvoorbereiding, Samenvatten, ..." />
           </FormField>
           <div style={{ gridColumn: '1 / -1', display: 'flex', flexWrap: 'wrap', gap: 20 }}>
-            {[{ key: 'gratis', label: 'Gratis beschikbaar' }, { key: 'voor_leerkracht', label: 'Voor leerkrachten' }, { key: 'voor_leerling', label: 'Voor leerlingen' }, { key: 'actief', label: 'Zichtbaar (actief)' }].map(({ key, label }) => (
-              <label key={key} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 14, color: '#4b5166' }}>
-                <input type="checkbox" checked={!!form[key]} onChange={e => set(key, e.target.checked)} style={{ width: 16, height: 16, accentColor: '#6d3aed' }} />
+            {[
+              { key: 'gratis',         label: 'Gratis beschikbaar' },
+              { key: 'voor_leerkracht', label: 'Voor leerkrachten' },
+              { key: 'voor_leerling',   label: 'Voor leerlingen' },
+              { key: 'actief',          label: 'Zichtbaar (actief)' },
+            ].map(({ key, label }) => (
+              <label key={key} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 14, color: '#446677', fontFamily: 'Manrope, sans-serif' }}>
+                <input type="checkbox" checked={!!form[key]} onChange={e => set(key, e.target.checked)} style={{ width: 16, height: 16, accentColor: '#005577' }} />
                 {label}
               </label>
             ))}
           </div>
         </div>
-        {message && <p style={{ marginTop: 16, fontSize: 14, color: message.startsWith('Fout') ? '#b91c1c' : '#15803d' }}>{message}</p>}
-        <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
-          <button onClick={() => onSave(form)} disabled={saving || !form.naam} style={{ padding: '10px 24px', backgroundColor: '#6d3aed', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 600, fontSize: 14, cursor: saving || !form.naam ? 'not-allowed' : 'pointer', opacity: saving || !form.naam ? 0.6 : 1 }}>
-            {saving ? 'Opslaan…' : 'Opslaan'}
+        {message && (
+          <p style={{ marginTop: 16, fontSize: 14, color: message.startsWith('Fout') ? '#b91c1c' : '#15803d', fontFamily: 'Manrope, sans-serif' }}>
+            {message}
+          </p>
+        )}
+        <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
+          <button
+            onClick={() => onSave(form)}
+            disabled={saving || !form.naam}
+            style={{ padding: '10px 24px', background: 'linear-gradient(90deg, #005577, #0077aa)', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 600, fontSize: 14, cursor: saving || !form.naam ? 'not-allowed' : 'pointer', opacity: saving || !form.naam ? 0.6 : 1, fontFamily: '"Space Grotesk", sans-serif', letterSpacing: '0.04em' }}
+          >
+            {saving ? 'Opslaan\u2026' : 'Opslaan'}
           </button>
-          <button onClick={onCancel} style={{ padding: '10px 24px', backgroundColor: '#fff', color: '#4b5166', border: '1px solid #e2e4ea', borderRadius: 8, fontSize: 14, cursor: 'pointer' }}>Annuleren</button>
+          <button
+            onClick={onCancel}
+            style={{ padding: '10px 24px', background: 'transparent', color: '#446677', border: '1px solid rgba(141,209,245,0.4)', borderRadius: 8, fontSize: 14, cursor: 'pointer', fontFamily: 'Manrope, sans-serif' }}
+          >
+            Annuleren
+          </button>
         </div>
       </div>
     </div>
@@ -219,25 +235,39 @@ export default function Admin() {
   /* ---- Login scherm ---- */
   if (!authenticated) {
     return (
-      <div style={{ minHeight: '100vh', backgroundColor: '#f4f5f7', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
-        <div style={{ backgroundColor: '#fff', border: '1px solid #e2e4ea', borderRadius: 20, padding: 36, width: '100%', maxWidth: 380, boxShadow: '0 4px 20px rgb(0 0 0 / 0.08)' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
-            <div style={{ width: 52, height: 52, borderRadius: 14, background: 'linear-gradient(135deg, #6d3aed, #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: 16 }}>AI</div>
+      <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #002233 0%, #005577 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+        <div style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(16px)', border: '1px solid rgba(141,209,245,0.35)', borderRadius: 24, padding: 40, width: '100%', maxWidth: 380, boxShadow: '0 24px 64px rgba(0,34,51,0.35)' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 28 }}>
+            <div style={{ width: 56, height: 56, borderRadius: 16, background: 'linear-gradient(135deg, #005577, #8dd1f5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 28, color: '#fff' }}>hub</span>
+            </div>
           </div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: '#1e1f2e', textAlign: 'center', margin: 0 }}>Beheerdersomgeving</h1>
-          <p style={{ fontSize: 13, color: '#8b90a7', textAlign: 'center', marginTop: 4, marginBottom: 24 }}>AI Tools — Miniemeninstituut Leuven</p>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#002233', textAlign: 'center', margin: 0, fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
+            Beheerdersomgeving
+          </h1>
+          <p style={{ fontSize: 13, color: '#446677', textAlign: 'center', marginTop: 4, marginBottom: 28, fontFamily: '"Space Grotesk", sans-serif', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+            AI Hub — Miniemeninstituut Leuven
+          </p>
           <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div>
-              <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#1e1f2e', marginBottom: 6 }}>E-mailadres</label>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)} required autoFocus style={{ ...inputCls, display: 'block' }} onFocus={e => { e.target.style.borderColor = '#6d3aed' }} onBlur={e => { e.target.style.borderColor = '#e2e4ea' }} placeholder="admin@school.be" />
+              <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#8dd1f5', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: '"Space Grotesk", sans-serif' }}>
+                E-mailadres
+              </label>
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)} required autoFocus style={{ ...inputStyle, display: 'block' }} onFocus={e => Object.assign(e.target.style, focusStyle)} onBlur={e => Object.assign(e.target.style, blurStyle)} placeholder="admin@school.be" />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#1e1f2e', marginBottom: 6 }}>Wachtwoord</label>
-              <input type="password" value={password} onChange={e => setPassword(e.target.value)} required style={{ ...inputCls, display: 'block' }} onFocus={e => { e.target.style.borderColor = '#6d3aed' }} onBlur={e => { e.target.style.borderColor = '#e2e4ea' }} />
+              <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#8dd1f5', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: '"Space Grotesk", sans-serif' }}>
+                Wachtwoord
+              </label>
+              <input type="password" value={password} onChange={e => setPassword(e.target.value)} required style={{ ...inputStyle, display: 'block' }} onFocus={e => Object.assign(e.target.style, focusStyle)} onBlur={e => Object.assign(e.target.style, blurStyle)} />
             </div>
-            {authError && <p style={{ fontSize: 13, color: '#b91c1c', margin: 0 }}>{authError}</p>}
-            <button type="submit" disabled={authLoading} style={{ padding: '11px 0', backgroundColor: '#6d3aed', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 600, fontSize: 14, cursor: 'pointer', opacity: authLoading ? 0.7 : 1 }}>
-              {authLoading ? 'Aanmelden…' : 'Aanmelden'}
+            {authError && <p style={{ fontSize: 13, color: '#b91c1c', margin: 0, fontFamily: 'Manrope, sans-serif' }}>{authError}</p>}
+            <button
+              type="submit"
+              disabled={authLoading}
+              style={{ padding: '12px 0', background: 'linear-gradient(90deg, #005577, #0077aa)', color: '#fff', border: 'none', borderRadius: 10, fontWeight: 600, fontSize: 14, cursor: 'pointer', opacity: authLoading ? 0.7 : 1, fontFamily: '"Space Grotesk", sans-serif', letterSpacing: '0.06em', textTransform: 'uppercase', transition: 'opacity 0.15s' }}
+            >
+              {authLoading ? 'Aanmelden\u2026' : 'Aanmelden'}
             </button>
           </form>
         </div>
@@ -247,55 +277,94 @@ export default function Admin() {
 
   /* ---- Admin dashboard ---- */
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f4f5f7' }}>
-      <header style={{ backgroundColor: '#fff', borderBottom: '1px solid #e2e4ea', boxShadow: '0 1px 4px rgb(0 0 0 / 0.06)' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', padding: '14px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <div style={{ minHeight: '100vh', background: '#f0f9ff' }}>
+      <header style={{ background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(141,209,245,0.25)', boxShadow: '0 2px 12px rgba(0,85,119,0.06)' }}>
+        <div style={{ maxWidth: 960, margin: '0 auto', padding: '14px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 34, height: 34, borderRadius: 10, background: 'linear-gradient(135deg, #6d3aed, #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: 12 }}>AI</div>
+            <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg, #005577, #8dd1f5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 20, color: '#fff' }}>hub</span>
+            </div>
             <div>
-              <p style={{ margin: 0, fontWeight: 700, fontSize: 15, color: '#1e1f2e' }}>Admin — AI Tools</p>
-              <p style={{ margin: 0, fontSize: 12, color: '#8b90a7' }}>Miniemeninstituut Leuven</p>
+              <p style={{ margin: 0, fontWeight: 700, fontSize: 15, color: '#002233', fontFamily: '"Plus Jakarta Sans", sans-serif' }}>Admin — AI Hub</p>
+              <p style={{ margin: 0, fontSize: 12, color: '#446677', fontFamily: '"Space Grotesk", sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Miniemeninstituut Leuven</p>
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <a href="/" style={{ fontSize: 13, color: '#6d3aed', textDecoration: 'none' }}>← Publieke weergave</a>
-            <button onClick={handleLogout} style={{ fontSize: 13, color: '#8b90a7', background: 'none', border: 'none', cursor: 'pointer' }} onMouseEnter={e => { e.currentTarget.style.color = '#b91c1c' }} onMouseLeave={e => { e.currentTarget.style.color = '#8b90a7' }}>Afmelden</button>
+            <a href="/" style={{ fontSize: 13, color: '#005577', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4, fontFamily: '"Space Grotesk", sans-serif', fontWeight: 600 }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 15 }}>arrow_back</span>
+              Publieke weergave
+            </a>
+            <button
+              onClick={handleLogout}
+              style={{ fontSize: 13, color: '#446677', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Manrope, sans-serif', transition: 'color 0.15s' }}
+              onMouseEnter={e => { e.currentTarget.style.color = '#b91c1c' }}
+              onMouseLeave={e => { e.currentTarget.style.color = '#446677' }}
+            >
+              Afmelden
+            </button>
           </div>
         </div>
       </header>
 
-      <main style={{ maxWidth: 900, margin: '0 auto', padding: '32px 16px' }}>
+      <main style={{ maxWidth: 960, margin: '0 auto', padding: '32px 16px' }}>
         {editing ? (
           <ToolForm tool={editing} onSave={saveTool} onCancel={() => { setEditing(null); setMessage('') }} saving={saving} message={message} />
         ) : (
           <>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-              <h2 style={{ fontSize: 18, fontWeight: 700, color: '#1e1f2e', margin: 0 }}>Alle tools ({tools.length})</h2>
-              <button onClick={() => { setEditing(EMPTY_TOOL); setMessage('') }} style={{ padding: '9px 18px', backgroundColor: '#6d3aed', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>+ Tool toevoegen</button>
+              <h2 style={{ fontSize: 18, fontWeight: 700, color: '#002233', margin: 0, fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
+                Alle tools ({tools.length})
+              </h2>
+              <button
+                onClick={() => { setEditing(EMPTY_TOOL); setMessage('') }}
+                style={{ padding: '9px 18px', background: 'linear-gradient(90deg, #005577, #0077aa)', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 600, fontSize: 13, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, fontFamily: '"Space Grotesk", sans-serif', letterSpacing: '0.04em' }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>add</span>
+                Tool toevoegen
+              </button>
             </div>
+
             {message && !editing && (
-              <div style={{ marginBottom: 16, padding: '12px 16px', borderRadius: 10, fontSize: 14, backgroundColor: '#f0fdf4', color: '#15803d', border: '1px solid #bbf7d0' }}>{message}</div>
+              <div style={{ marginBottom: 16, padding: '12px 16px', borderRadius: 10, fontSize: 14, background: 'rgba(21,128,61,0.08)', color: '#15803d', border: '1px solid #bbf7d0', fontFamily: 'Manrope, sans-serif' }}>
+                {message}
+              </div>
             )}
+
             {loading ? (
               <div style={{ display: 'flex', justifyContent: 'center', padding: '48px 0' }}>
-                <div style={{ width: 36, height: 36, borderRadius: '50%', border: '4px solid #ede9fe', borderTopColor: '#6d3aed', animation: 'spin 0.8s linear infinite' }} />
+                <div style={{ width: 36, height: 36, borderRadius: '50%', border: '4px solid rgba(141,209,245,0.3)', borderTopColor: '#005577', animation: 'spin 0.8s linear infinite' }} />
                 <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {tools.map(tool => (
-                  <div key={tool.id} style={{ backgroundColor: '#fff', border: '1px solid #e2e4ea', borderRadius: 12, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 16, opacity: tool.actief ? 1 : 0.55, boxShadow: '0 1px 3px rgb(0 0 0 / 0.04)' }}>
+                  <div
+                    key={tool.id}
+                    style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(141,209,245,0.35)', borderRadius: 14, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 16, opacity: tool.actief ? 1 : 0.55, boxShadow: '0 2px 8px rgba(0,85,119,0.06)', transition: 'box-shadow 0.15s' }}
+                  >
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                        <span style={{ fontWeight: 600, fontSize: 15, color: '#1e1f2e' }}>{tool.naam}</span>
-                        <span style={{ padding: '2px 8px', borderRadius: 99, fontSize: 11, fontWeight: 600, backgroundColor: '#ede9fe', color: '#6d3aed' }}>{tool.categorie}</span>
-                        {!tool.actief && <span style={{ padding: '2px 8px', borderRadius: 99, fontSize: 11, fontWeight: 600, backgroundColor: '#f3f4f6', color: '#6b7280' }}>verborgen</span>}
+                        <span style={{ fontWeight: 600, fontSize: 15, color: '#002233', fontFamily: '"Plus Jakarta Sans", sans-serif' }}>{tool.naam}</span>
+                        <span style={{ padding: '2px 8px', borderRadius: 99, fontSize: 11, fontWeight: 600, background: 'rgba(0,85,119,0.08)', color: '#005577', border: '1px solid rgba(0,85,119,0.15)', fontFamily: '"Space Grotesk", sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{tool.categorie}</span>
+                        {!tool.actief && <span style={{ padding: '2px 8px', borderRadius: 99, fontSize: 11, fontWeight: 600, backgroundColor: '#f3f4f6', color: '#6b7280', fontFamily: '"Space Grotesk", sans-serif' }}>verborgen</span>}
                       </div>
-                      <p style={{ margin: '3px 0 0', fontSize: 13, color: '#8b90a7', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{tool.beschrijving}</p>
+                      <p style={{ margin: '3px 0 0', fontSize: 13, color: '#446677', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: 'Manrope, sans-serif' }}>{tool.beschrijving}</p>
                     </div>
                     <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
-                      <button onClick={() => { setEditing(tool); setMessage('') }} style={{ padding: '7px 14px', fontSize: 13, border: '1px solid #e2e4ea', borderRadius: 8, backgroundColor: '#fff', color: '#4b5166', cursor: 'pointer' }} onMouseEnter={e => { e.currentTarget.style.borderColor = '#6d3aed'; e.currentTarget.style.color = '#6d3aed' }} onMouseLeave={e => { e.currentTarget.style.borderColor = '#e2e4ea'; e.currentTarget.style.color = '#4b5166' }}>Bewerken</button>
-                      <button onClick={() => toggleActief(tool)} style={{ padding: '7px 14px', fontSize: 13, border: `1px solid ${tool.actief ? '#e2e4ea' : '#bbf7d0'}`, borderRadius: 8, backgroundColor: '#fff', color: tool.actief ? '#8b90a7' : '#15803d', cursor: 'pointer' }}>{tool.actief ? 'Verbergen' : 'Tonen'}</button>
+                      <button
+                        onClick={() => { setEditing(tool); setMessage('') }}
+                        style={{ padding: '7px 14px', fontSize: 13, border: '1px solid rgba(141,209,245,0.4)', borderRadius: 8, backgroundColor: 'transparent', color: '#446677', cursor: 'pointer', fontFamily: 'Manrope, sans-serif', transition: 'all 0.15s' }}
+                        onMouseEnter={e => { e.currentTarget.style.borderColor = '#005577'; e.currentTarget.style.color = '#005577' }}
+                        onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(141,209,245,0.4)'; e.currentTarget.style.color = '#446677' }}
+                      >
+                        Bewerken
+                      </button>
+                      <button
+                        onClick={() => toggleActief(tool)}
+                        style={{ padding: '7px 14px', fontSize: 13, border: `1px solid ${tool.actief ? 'rgba(141,209,245,0.4)' : '#bbf7d0'}`, borderRadius: 8, backgroundColor: 'transparent', color: tool.actief ? '#446677' : '#15803d', cursor: 'pointer', fontFamily: 'Manrope, sans-serif', transition: 'all 0.15s' }}
+                      >
+                        {tool.actief ? 'Verbergen' : 'Tonen'}
+                      </button>
                     </div>
                   </div>
                 ))}

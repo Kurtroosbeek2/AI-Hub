@@ -1,7 +1,7 @@
 const SECTIONS = [
   {
     title: 'Zo gebruik je AI als leerkracht',
-    icon: '\ud83e\uddd1\u200d\ud83c\udfeb',
+    icon: 'school',
     items: [
       {
         title: 'Start met een duidelijke opdracht',
@@ -9,7 +9,7 @@ const SECTIONS = [
       },
       {
         title: 'Gebruik AI als assistent, niet als vervanger',
-        text: 'AI maakt een eerste versie — jij verfijnt die met jouw expertise. Controleer altijd de inhoud op correctheid voor je ze gebruikt.',
+        text: 'AI maakt een eerste versie \u2014 jij verfijnt die met jouw expertise. Controleer altijd de inhoud op correctheid voor je ze gebruikt.',
       },
       {
         title: 'Bewaar goede prompts als sjabloon',
@@ -26,8 +26,8 @@ const SECTIONS = [
     ],
   },
   {
-    title: 'GDPR — wat mag en wat niet?',
-    icon: '\ud83d\udd12',
+    title: 'GDPR \u2014 wat mag en wat niet?',
+    icon: 'lock',
     items: [
       {
         title: 'Geen namen of persoonsgegevens invoeren',
@@ -46,26 +46,26 @@ const SECTIONS = [
         text: 'Laat leerlingen geen persoonlijk werk invoeren in niet-goedgekeurde tools. Gebruik schooltools of geanonimiseerde teksten.',
       },
       {
-        title: 'Bij twijfel: vraag de ICT-coördinator',
-        text: 'De school heeft GDPR-afspraken. Raadpleeg de ICT-coördinator voor gebruik van een nieuwe tool die nog niet beoordeeld is.',
+        title: 'Bij twijfel: vraag de ICT-co\u00f6rdinator',
+        text: 'De school heeft GDPR-afspraken. Raadpleeg de ICT-co\u00f6rdinator voor gebruik van een nieuwe tool die nog niet beoordeeld is.',
       },
     ],
   },
   {
-    title: 'AI en inclusie — zo help je leerlingen met zorgnoden',
-    icon: '\ud83e\udd1d',
+    title: 'AI en inclusie \u2014 zo help je leerlingen met zorgnoden',
+    icon: 'diversity_3',
     items: [
       {
         title: 'Teksten vereenvoudigen voor leerlingen met leesproblemen',
-        text: 'Plak een moeilijke tekst en vraag AI om een versie in “klare taal” of “B1-niveau Nederlands”.',
+        text: 'Plak een moeilijke tekst en vraag AI om een versie in \u201cklare taal\u201d of \u201cB1-niveau Nederlands\u201d.',
       },
       {
         title: 'Alternatieve uitleg op maat',
-        text: 'Vraag AI om een concept op 5 manieren uit te leggen: met analogie, concreet voorbeeld, stap-voor-stap, visueel beschreven, …',
+        text: 'Vraag AI om een concept op 5 manieren uit te leggen: met analogie, concreet voorbeeld, stap-voor-stap, visueel beschreven, \u2026',
       },
       {
         title: 'Gepersonaliseerde oefeningen voor extra ondersteuning',
-        text: 'Beschrijf het type oefening en het leerlingniveau (geanonimiseerd) — AI genereert maatwerkoefeningen in seconden.',
+        text: 'Beschrijf het type oefening en het leerlingniveau (geanonimiseerd) \u2014 AI genereert maatwerkoefeningen in seconden.',
       },
       {
         title: 'Visuele ondersteuning bij moeilijke begrippen',
@@ -83,20 +83,24 @@ function Section({ title, icon, items }) {
   return (
     <section>
       <div className="flex items-center gap-3 mb-4">
-        <span className="text-2xl" aria-hidden="true">{icon}</span>
-        <h2 className="text-lg font-bold" style={{ color: '#1e1f2e' }}>{title}</h2>
+        <div
+          className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+          style={{ background: 'linear-gradient(135deg, #005577, #8dd1f5)' }}
+        >
+          <span className="material-symbols-outlined text-white" style={{ fontSize: 18 }}>{icon}</span>
+        </div>
+        <h2 className="text-lg font-bold font-headline" style={{ color: '#002233' }}>{title}</h2>
       </div>
       <div className="space-y-3">
         {items.map((tip, i) => (
           <div
             key={i}
-            className="bg-white rounded-xl p-4"
-            style={{ border: '1px solid #e2e4ea', boxShadow: '0 1px 3px rgb(0 0 0 / 0.04)' }}
+            className="glass-card rounded-xl p-4 transition-all"
           >
-            <h3 className="font-semibold text-sm mb-1" style={{ color: '#1e1f2e' }}>
+            <h3 className="font-semibold text-sm mb-1 font-headline" style={{ color: '#002233' }}>
               {tip.title}
             </h3>
-            <p className="text-sm leading-relaxed" style={{ color: '#4b5166' }}>
+            <p className="text-sm leading-relaxed font-body" style={{ color: '#446677' }}>
               {tip.text}
             </p>
           </div>
@@ -110,12 +114,12 @@ export default function TabTips() {
   return (
     <div className="space-y-10">
       {SECTIONS.map((s, i) => (
-        <>
+        <div key={s.title}>
           {i > 0 && (
-            <div style={{ borderTop: '1px solid #e2e4ea' }} />
+            <div style={{ borderTop: '1px solid rgba(141,209,245,0.2)', marginBottom: '2.5rem' }} />
           )}
-          <Section key={s.title} title={s.title} icon={s.icon} items={s.items} />
-        </>
+          <Section title={s.title} icon={s.icon} items={s.items} />
+        </div>
       ))}
     </div>
   )

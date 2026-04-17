@@ -58,7 +58,7 @@ export default function TabAlleTools() {
       <div className="flex justify-center items-center py-20" aria-label="Laden">
         <div
           className="w-10 h-10 rounded-full border-4 animate-spin"
-          style={{ borderColor: '#ede9fe', borderTopColor: '#6d3aed' }}
+          style={{ borderColor: 'rgba(141,209,245,0.3)', borderTopColor: '#005577' }}
         />
       </div>
     )
@@ -67,12 +67,13 @@ export default function TabAlleTools() {
   if (error) {
     return (
       <div
-        className="text-center py-16 rounded-2xl"
-        style={{ backgroundColor: '#fef2f2', color: '#b91c1c' }}
+        className="glass-card text-center py-16 rounded-2xl px-6"
+        style={{ border: '1px solid rgba(239,68,68,0.2)' }}
       >
-        <p className="font-semibold">Kon tools niet laden</p>
-        <p className="text-sm mt-1 opacity-75">{error}</p>
-        <p className="text-sm mt-3 opacity-60">
+        <span className="material-symbols-outlined text-4xl mb-3 block" style={{ color: '#b91c1c' }}>error</span>
+        <p className="font-semibold font-headline" style={{ color: '#b91c1c' }}>Kon tools niet laden</p>
+        <p className="text-sm mt-1 font-body" style={{ color: '#446677' }}>{error}</p>
+        <p className="text-sm mt-3 font-body" style={{ color: '#446677', opacity: 0.7 }}>
           Controleer of de Supabase omgevingsvariabelen correct zijn ingesteld.
         </p>
       </div>
@@ -84,14 +85,14 @@ export default function TabAlleTools() {
       <FilterBar filters={filters} onChange={setFilters} categories={categories} />
 
       {filtered.length === 0 ? (
-        <div className="text-center py-16" style={{ color: '#8b90a7' }}>
-          <p className="text-4xl mb-3" aria-hidden="true">&#128269;</p>
-          <p className="font-semibold text-lg">Geen tools gevonden</p>
-          <p className="text-sm mt-1">Pas de filters aan om meer resultaten te zien.</p>
+        <div className="text-center py-16" style={{ color: '#446677' }}>
+          <span className="material-symbols-outlined text-5xl mb-3 block" style={{ color: '#8dd1f5' }}>search_off</span>
+          <p className="font-semibold text-lg font-headline" style={{ color: '#002233' }}>Geen tools gevonden</p>
+          <p className="text-sm mt-1 font-body">Pas de filters aan om meer resultaten te zien.</p>
         </div>
       ) : (
         <>
-          <p className="text-sm mb-4" style={{ color: '#8b90a7' }}>
+          <p className="text-sm mb-4 font-label uppercase tracking-wide" style={{ color: '#8dd1f5' }}>
             {filtered.length} tool{filtered.length !== 1 ? 's' : ''} gevonden
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
